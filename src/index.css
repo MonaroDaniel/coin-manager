@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.root,
+#root,
+#docs-root {
+  /* background */
+  --bg-00: #202024;
+  --bg-01: #29292E;
+  --bg-02: #121214;
+
+  /* texts */
+  --txt-00: #FFFFFF;
+  --txt-01: #C4C4CC;
+
+  /* colors */
+  --cl-light-success: #00B37E;
+  --cl-dark-success: #00875F;
+
+  --cl-light-danger: #F75A68;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
