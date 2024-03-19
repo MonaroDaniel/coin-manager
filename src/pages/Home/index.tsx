@@ -1,50 +1,51 @@
-import { useEffect, useState } from "react";
-import { RowTable } from "../../components/RowTable";
-import { api } from "../../axios";
-import { PacmanLoader } from "react-spinners";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from 'react'
+import { RowTable } from '../../components/RowTable'
+import { api } from '../../axios'
+import { PacmanLoader } from 'react-spinners'
+import { Link } from 'react-router-dom'
 
 type Coin = {
-    id: string,
-    symbol: string,
-    name: string,
-    image: string,
-    current_price: number
+  id: string
+  symbol: string
+  name: string
+  image: string
+  current_price: number
 }
 
 export function Home() {
-    const [coins, setCoins] = useState<Coin[]>([])
+  const [coins, setCoins] = useState<Coin[]>([])
 
-    useEffect(() => {
-        api.get('coins/markets', {
-            params: {
-                vs_currency: 'brl',
-                order: 'market_cap_desc',
-                per_page: 10,
-                page: 1
-            }
+  useEffect(() => {
+    api
+      .get('coins/markets', {
+        params: {
+          vs_currency: 'brl',
+          order: 'market_cap_desc',
+          per_page: 10,
+          page: 1,
+        },
+      })
+      .then((response) => {
+        const currentCoins: Coin[] = []
+
+        response.data.forEach((coin: Coin) => {
+          currentCoins.push({
+            id: coin.id,
+            image: coin.image,
+            name: coin.name,
+            symbol: coin.symbol,
+            current_price: coin.current_price,
+          })
         })
-            .then(response => {
-                const currentCoins: Coin[] = []
+        setCoins(currentCoins)
+      })
+      .catch((error) => {
+        setCoins([])
+        console.log(error)
+      })
 
-                response.data.forEach((coin: Coin) => {
-                    currentCoins.push({
-                        id: coin.id,
-                        image: coin.image,
-                        name: coin.name,
-                        symbol: coin.symbol,
-                        current_price: coin.current_price
-                    })
-                });
-                setCoins(currentCoins)
-            })
-            .catch(error => {
-                setCoins([])
-                console.log(error);
-            })
-
-        //Usar data abaixo se a API exceder as requisições
-        /* const data = [
+    // Usar data abaixo se a API exceder as requisições
+    /* const data = [
             {
                 "id": "bitcoin",
                 "symbol": "btc",
@@ -118,35 +119,33 @@ export function Home() {
             })
         });
         setCoins(currentCoins) */
+  }, [])
 
-    }, [])
+  function renderCoinsRow(dataCoins: Coin[]) {
+    return dataCoins.map((coin) => (
+      <Link key={coin.id} to={`/coin/${coin.id}`}>
+        <RowTable
+          name={coin.name}
+          currentPrice={coin.current_price}
+          img={coin.image}
+          symble={coin.symbol}
+        />
+      </Link>
+    ))
+  }
 
-    function renderCoinsRow(dataCoins: Coin[]) {
-        return dataCoins.map(coin => (
-            <Link
-                key={coin.id}
-                to={`/coin/${coin.id}`}
-            >
-                <RowTable
-                    name={coin.name}
-                    current_price={coin.current_price}
-                    img={coin.image}
-                    symble={coin.symbol}
-                />
-            </Link>
-        ))
-    }
-
-    return (
-        <div className="flex flex-col m-auto max-w-3xl h-full gap-2 p-2">
-            <span className="text-center text-2xl font-bold text-txt-00 my-3">Top 10 Cryptocurrencies by Market Capitalization</span>
-            {
-                coins.length > 0 ?
-                    renderCoinsRow(coins) :
-                    <div className="w-full flex justify-center h-screen">
-                        <PacmanLoader color="#C4C4CC" />
-                    </div>
-            }
+  return (
+    <div className="flex flex-col m-auto max-w-3xl h-full gap-2 p-2">
+      <span className="text-center text-2xl font-bold text-txt-00 my-3">
+        Top 10 Cryptocurrencies by Market Capitalization
+      </span>
+      {coins.length > 0 ? (
+        renderCoinsRow(coins)
+      ) : (
+        <div className="w-full flex justify-center h-screen">
+          <PacmanLoader color="#C4C4CC" />
         </div>
-    )
+      )}
+    </div>
+  )
 }

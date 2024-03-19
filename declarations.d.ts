@@ -1,7 +1,7 @@
 // declarations.d.ts
 
 interface Window {
-    ethereum?: {
-      enable: () => Promise<string[]>;
-    };
+  ethereum?: {
+    enable: () => Promise<string[]>
   }
+}
