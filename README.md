@@ -1,6 +1,6 @@
 # COIN MANAGER
 
-Aplicação para visualização das top 10 criptomoedas por capitalização de mercado. <br>
+Aplicação para visualização das top 10 criptomoedas por capitalização de mercado e seus detalhes. <br>
 Valores monetários apresentados no formato USD <br>
 Integração com Smart Wallet. <br>
 <br>
