@@ -8,4 +8,4 @@ Para iniciar em desenvolvimento rode estes 2 comandos:<br>
 yarn<br>
 yarn dev<br>
 
-Link em produção: [https://coin-manager-6zhcszym7-daniel-wolf-monaros-projects.vercel.app/](https://coin-manager.vercel.app/)https://coin-manager.vercel.app/
+Link em produção: https://coin-manager.vercel.app/
