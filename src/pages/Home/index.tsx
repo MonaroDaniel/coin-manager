@@ -19,7 +19,7 @@ export function Home() {
     api
       .get('coins/markets', {
         params: {
-          vs_currency: 'brl',
+          vs_currency: 'usd',
           order: 'market_cap_desc',
           per_page: 10,
           page: 1,
