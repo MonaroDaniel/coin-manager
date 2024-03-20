@@ -20,6 +20,10 @@ export function SmartWallet() {
   }, [isConnected, walletAddress])
 
   async function connectWalletPressed() {
+    /* if (window.ethereum === undefined) {
+      setStatus('Install Metamask in your browser')
+    } */
+
     if (isConnected) {
       return alert(
         'Account already connected! ' +
@@ -41,7 +45,7 @@ export function SmartWallet() {
         const address = await window.ethereum.enable()
         const obj: WalletResponse = {
           connectedStatus: true,
-          status: 'Conectado',
+          status: 'Conected',
           address: address[0], // Pode acessar o primeiro endereço retornado, se houver
         }
         return obj
@@ -54,8 +58,7 @@ export function SmartWallet() {
     } else {
       return {
         connectedStatus: false,
-        status:
-          'Install Metamask in your browser: https://metamask.io/download.html',
+        status: 'Install Metamask in your browser',
       }
     }
   }
@@ -75,17 +78,30 @@ export function SmartWallet() {
   return (
     <>
       <div className="flex flex-col items-center">
-        <span className="text-sm text-txt-00">Wallet Address</span>
-        <span className="text-sm text-txt-00">{walletAddress}</span>
-        <span className="text-sm text-txt-00">
-          Wallet Balance: {walletBalance} ETH
-        </span>
+        {status.includes('Install') ? (
+          <a
+            className='underline className="text-xs text-txt-00'
+            href="https://metamask.io/download.html"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {status}
+          </a>
+        ) : (
+          <>
+            <span className="text-sm text-txt-00">Wallet Address</span>
+            <span className="text-sm text-txt-00">{walletAddress}</span>
+            <span className="text-sm text-txt-00">
+              Wallet Balance: {walletBalance} ETH
+            </span>
+          </>
+        )}
       </div>
       <button
         onClick={connectWalletPressed}
         className="flex items-center text-sm h-10 border-none bg-cl-light-success active:bg-cl-dark-success text-txt-00 rounded-lg p-3"
       >
-        {status ? 'Wallet Connected' : 'Connect Wallet'}
+        {status === 'Conected' ? status : 'Connect Wallet'}
       </button>
     </>
   )
